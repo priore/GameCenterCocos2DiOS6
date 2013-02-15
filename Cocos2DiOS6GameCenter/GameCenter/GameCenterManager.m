@@ -159,7 +159,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameCenterManager);
             [localPlayer setAuthenticateHandler:(^(UIViewController* viewcontroller, NSError *error) {
                 if (!error && viewcontroller)
                 {
-                    controllerContainer = [[UIApplication sharedApplication] keyWindow].rootViewController;
+                    if (controllerContainer == nil) {
+                        NSObject<UIApplicationDelegate> *universalAppDelegate = (NSObject<UIApplicationDelegate>*)[[UIApplication sharedApplication] delegate];
+                        controllerContainer = [(AppController*)universalAppDelegate navController];
+                    }
                     [controllerContainer presentViewController:viewcontroller animated:YES completion:nil];
                 }
                 else
